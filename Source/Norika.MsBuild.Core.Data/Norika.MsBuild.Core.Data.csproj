@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <AssemblyName>Norika.MsBuild.Core.Data</AssemblyName>
+        <RootNamespace>Norika.MsBuild.Core.Data</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Norika.MsBuild.Model\Norika.MsBuild.Model.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Norika.Xml.CommentBasedHelp.Data" Version="0.1.0-alpha73" />
+    </ItemGroup>
+
+</Project>

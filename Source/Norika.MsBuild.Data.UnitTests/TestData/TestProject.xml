@@ -1,0 +1,13 @@
+<Project ToolsVersion="15.0" DefaultTargets="TestTargetA" InitialTargets="TestTargetB">
+    <PropertyGroup>
+        <PropertyA Condition="$(PropertyA)!=''">ValueIfNotSetBefore</PropertyA>
+        <PropertyB Condition="$(PropertyB)!=''">$(PropertyB)</PropertyB>
+        <PropertyC Condition="$(PropertyB)!=''">$(PropertyB)</PropertyC>
+    </PropertyGroup>
+    <Target Name="TestTargetA" >
+        <CallTarget Targets="TestTargetB" />
+    </Target>
+    <Target Name="TestTargetB" Condition="$(ValueA)=='A'" >
+        <CallTarget Targets="TestTargetB" />
+    </Target>
+</Project>

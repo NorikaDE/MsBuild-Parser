@@ -1,0 +1,25 @@
+<Project>
+    <Target Name="WithDefaultOverwritableProperty">
+        <PropertyGroup>
+            <OverwritableProperty>$(OverwritableProperty)</OverwritableProperty>
+        </PropertyGroup>
+    </Target>
+
+    <Target Name="WithNotOverwritableProperty">
+        <PropertyGroup>
+            <Property>Blafasel</Property>
+        </PropertyGroup>
+    </Target>
+
+    <Target Name="WithConditionalOverwritableProperty">
+        <PropertyGroup>
+            <OverwritableProperty Condition="'$(OverwritableProperty)' == ''">$(OverwritableProperty)</OverwritableProperty>
+        </PropertyGroup>
+    </Target>
+
+    <Target Name="WithComplexConditionalOverwritableProperty">
+        <PropertyGroup>
+            <OverwritableProperty Condition="'$(OverwritableProperty)' == '' AND $(Test) == true">$(OverwritableProperty)</OverwritableProperty>
+        </PropertyGroup>
+    </Target>
+</Project>

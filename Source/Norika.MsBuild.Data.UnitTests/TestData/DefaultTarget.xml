@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Project>
+    <!--
+        .SYNOPSIS 
+        This is a test target
+        
+        .DESCRIPTION
+        Does nothing really cool but, yeah, well...
+    -->
+    <Target Name="DefaultTarget"
+            Inputs="Inputs"
+            Outputs="Outputs"
+            Returns="Returns"
+            KeepDuplicateOutputs="true"
+            BeforeTargets="BeforeTargets"
+            AfterTargets="AfterTargets"
+            DependsOnTargets="DependentTarget"
+            Condition="'String A' == 'String B'"
+            Label="Label">
+        <OnError ExecuteTargets="OnErrorTargetName" />
+    </Target>
+
+    <!--
+       .SYNOPSIS 
+       This is a extended test target
+       
+       .DESCRIPTION
+       Does nothing really cool but, yeah, well...
+   -->
+    
+    <Target Name="ExtendedTarget"
+            Inputs="Inputs"
+            Outputs="Outputs"
+            Returns="Returns"
+            KeepDuplicateOutputs="true"
+            BeforeTargets="BeforeTargets1;BeforeTargets2"
+            AfterTargets="AfterTargets1;AfterTargets2;AfterTargets3"
+            DependsOnTargets="DependentTarget1"
+            Condition="'String A' == 'String B'"
+            Label="Label">
+        <OnError ExecuteTargets="OnErrorTarget1;OnErrorTarget2" />
+    </Target>
+</Project>
