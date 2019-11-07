@@ -77,7 +77,8 @@ namespace Norika.MsBuild.Core.Data.Help
                 OmitXmlDeclaration = true,
                 Indent = true,
                 NewLineOnAttributes = true,
-                ConformanceLevel = ConformanceLevel.Fragment
+                ConformanceLevel = ConformanceLevel.Fragment,
+                NewLineChars =  "\n"
             };
 
             using (XmlWriter xmlWriter = XmlWriter.Create(xmlStringBuilder, writerSettings))
