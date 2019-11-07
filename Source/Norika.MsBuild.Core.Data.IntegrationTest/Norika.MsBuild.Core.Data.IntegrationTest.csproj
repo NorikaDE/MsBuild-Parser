@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -17,13 +17,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="TestData\ProjectFiles\TargetWithOnError.csproj">
+      <None Include="TestData\ProjectFiles\TargetWithOnError.tcsproj">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="TestData\ProjectFiles\TargetWithProperties.csproj">
+      <None Include="TestData\ProjectFiles\TargetWithProperties.tcsproj">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Include="TestData\ProjectFiles\Test.csproj">
+      <None Include="TestData\ProjectFiles\Test.tcsproj">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

@@ -9,39 +9,38 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
     [TestClass]
     public class MsBuildProjectFileIntegrationTest
     {
-        
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFile_ShouldNotReturnNullObject()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
             
             Assert.IsNotNull(projectFile);
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFileWithTwoTargets_ShouldReturnObjectWithTwoContainingTargets()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
             
             Assert.AreEqual(2, projectFile.GetChildren<IMsBuildTarget>().Count);
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFileWithOnePropertyGroupContainingThreeProperties_ShouldReturnObjectContainingThreeProperties()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
             
             Assert.AreEqual(3, projectFile.GetChildren<IMsBuildProperty>().Count);
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFileWithTwoTargets_ShouldReturnObjectWithTwoContainingTargetsWithCorrectInitializedName()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
 
             IList<IMsBuildTarget> targets = projectFile.GetChildren<IMsBuildTarget>();
             
@@ -50,10 +49,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFileWithTwoTargets_ShouldReturnObjectContainingNoNotExistentTarget()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
 
             IList<IMsBuildTarget> targets = projectFile.GetChildren<IMsBuildTarget>();
             
@@ -61,10 +60,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFileWithPropertyNamedAuthor_ShouldReturnObjectContainingAnPropertyNamedAuthor()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
 
             IList<IMsBuildProperty> properties = projectFile.GetChildren<IMsBuildProperty>();
             
@@ -72,10 +71,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFileWithPropertyNamedAuthor_ShouldReturnObjectContainingAnPropertyNamedAuthorWithCorrectValue()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
 
             IList<IMsBuildProperty> properties = projectFile.GetChildren<IMsBuildProperty>();
             
@@ -85,10 +84,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFileWithTargetExecutedBeforeOtherTarget_ShouldReturnObjectContainingTargetWithCorrectBeforeTargetValue()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
 
             IMsBuildTarget target = projectFile.GetChildren<IMsBuildTarget>().First(t => t.Name.Equals("BeforeCompile"));
             
@@ -97,10 +96,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/Test.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void Load_FromExistentTestFileWithDocumentedTargetNamedCheckFileNameSyntax_ShouldContainTargetWithXmlHelp()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/Test.tcsproj");
 
             IMsBuildTarget target = projectFile.GetChildren<IMsBuildTarget>().First(t => t.Name.Equals("CheckFileNameSyntax"));
             
@@ -111,10 +110,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/TargetWithOnError.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/TargetWithOnError.tcsproj")]
         public void Load_FromExistentTestFileWithOneTargetContainingOnErrorImplementation_ShouldContainTargetWithOnErrorImplementation()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithOnError.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithOnError.tcsproj");
 
             IMsBuildTarget target = projectFile.GetChildren<IMsBuildTarget>().First(t => t.Name.Equals("BeforeCompile"));
             
@@ -123,10 +122,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/TargetWithOnError.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/TargetWithOnError.tcsproj")]
         public void Load_FromExistentTestFileWithOneTargetContainingOnErrorImplementation_ShouldContainTargetWithCorrectNamedOnErrorImplementation()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithOnError.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithOnError.tcsproj");
 
             IMsBuildTarget target = projectFile.GetChildren<IMsBuildTarget>().First(t => t.Name.Equals("BeforeCompile"));
             
@@ -135,10 +134,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/TargetWithProperties.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/TargetWithProperties.tcsproj")]
         public void Load_FromExistentTestFileWithTargetImplementingSimpleOverwritableProperty_ShouldReturnProjectContainingTargetWithOverwritableProperty()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithProperties.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithProperties.tcsproj");
 
             IMsBuildTarget target = projectFile.GetChildren<IMsBuildTarget>().First(t => t.Name.Equals("WithDefaultOverwritableProperty"));
 
@@ -149,10 +148,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/TargetWithProperties.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/TargetWithProperties.tcsproj")]
         public void Load_FromExistentTestFileWithTargetImplementingNotOverwritableProperty_ShouldReturnProjectContainingTargetWithNotOverwritableProperty()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithProperties.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithProperties.tcsproj");
 
             IMsBuildTarget target = projectFile.GetChildren<IMsBuildTarget>().First(t => t.Name.Equals("WithNotOverwritableProperty"));
 
@@ -163,10 +162,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/TargetWithProperties.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/TargetWithProperties.tcsproj")]
         public void Load_FromExistentTestFileWithTargetImplementingConditionalOverwritableProperty_ShouldReturnProjectContainingTargetWithOverwritableProperty()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithProperties.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithProperties.tcsproj");
 
             IMsBuildTarget target = projectFile.GetChildren<IMsBuildTarget>().First(t => t.Name.Equals("WithConditionalOverwritableProperty"));
 
@@ -177,10 +176,10 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
         }
         
         [TestMethod]
-        [DeploymentItem("TestData/ProjectFiles/TargetWithProperties.csproj")]
+        [DeploymentItem("TestData/ProjectFiles/TargetWithProperties.tcsproj")]
         public void Load_FromExistentTestFileWithTargetImplementingComplexConditionalOverwritableProperty_ShouldReturnProjectContainingTargetWithOverwritableProperty()
         {
-            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithProperties.csproj");
+            IMsBuildProject projectFile = MsBuildProjectFile.Load("TestData/ProjectFiles/TargetWithProperties.tcsproj");
 
             IMsBuildTarget target = projectFile.GetChildren<IMsBuildTarget>().First(t => t.Name.Equals("WithComplexConditionalOverwritableProperty"));
 
