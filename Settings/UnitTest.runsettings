@@ -8,10 +8,10 @@
                         <!-- Match assembly file paths: --> 
                         <ModulePaths> 
                             <Include> 
-                                <ModulePath>.*\Norika.Xml.*.dll</ModulePath> 
+                                <ModulePath>.*Norika\.MsBuild\..*\.dll</ModulePath> 
                             </Include> 
                             <Exclude> 
-                                <ModulePath>.*tests.dll</ModulePath> 
+                                <ModulePath>.*tests\.dll</ModulePath> 
                             </Exclude> 
                         </ModulePaths> 
                     </CodeCoverage> 
