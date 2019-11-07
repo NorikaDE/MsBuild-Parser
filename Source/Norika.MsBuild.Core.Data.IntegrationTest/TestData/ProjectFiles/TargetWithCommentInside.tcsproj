@@ -1,0 +1,34 @@
+<Project>
+  
+    <!--
+       .SYNOPSIS
+        Executes several targets which should be excuted before 'CoreCompile'.
+        
+       .DESCRIPTION
+        Executes several targets which should be excuted before 'CoreCompile'.
+    -->
+    <Target Name="BeforeCompile" BeforeTargets="CoreCompile">
+        <CallTarget Targets="CheckFileNameSyntax" />
+        <!-- Calls after an error occured -->
+        <OnError ExecuteTargets="CheckFileNameSyntax" />
+    </Target>
+    
+    
+    <!--
+       .SYNOPSIS
+        Checks the files from @(RelevantFiles) if it ends with '*.json'.
+        
+       .DESCRIPTION
+        Prints an error with information about the item when it does not
+        matches the file extension 'json'. The printed error contains 
+        information about the affected item.
+        
+       .PARAMETER @(RelevantFiles)
+        ItemGroup to check the extension of every specified item.
+    -->
+    <Target Name="CheckFileNameSyntax">
+        <Error Text="The file %(RelevantFiles.FullName) does not end with 'json'!"
+               Condition="'%(RelevantFiles.Extension)' != '.json'" />
+    </Target>
+    
+</Project>

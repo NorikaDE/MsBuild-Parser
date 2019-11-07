@@ -14,7 +14,7 @@ namespace Norika.MsBuild.Core.Data.Help
         {
             _paragraphs = new List<IMsBuildElementHelpParagraph>();
         }
-        
+
         public IEnumerator<IMsBuildElementHelpParagraph> GetEnumerator()
         {
             return _paragraphs.GetEnumerator();
@@ -44,8 +44,8 @@ namespace Norika.MsBuild.Core.Data.Help
         {
             _paragraphs.CopyTo(array, arrayIndex);
         }
-            
-            
+
+
         public bool Remove(IMsBuildElementHelpParagraph item)
         {
             return _paragraphs.Remove(item);
@@ -53,7 +53,7 @@ namespace Norika.MsBuild.Core.Data.Help
 
         public int Count => _paragraphs.Count;
         public bool IsReadOnly => _paragraphs.IsReadOnly;
-            
+
         public int IndexOf(IMsBuildElementHelpParagraph item)
         {
             return _paragraphs.IndexOf(item);

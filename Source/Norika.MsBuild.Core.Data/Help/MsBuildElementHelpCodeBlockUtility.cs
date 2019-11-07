@@ -25,21 +25,21 @@ namespace Norika.MsBuild.Core.Data.Help
         public static MsBuildHelpElementCodeBlock Parse(string helpStringContent)
         {
             helpStringContent = Decode(helpStringContent);
-            
+
             MsBuildHelpCodeBlockLanguage language = GetLanguage(helpStringContent);
 
             if (language == MsBuildHelpCodeBlockLanguage.Xml)
             {
                 helpStringContent = FormatXml(helpStringContent);
             }
-            
+
             return new MsBuildHelpElementCodeBlock(language, helpStringContent);
         }
-        
+
         public static string Decode(string helpStringContent)
         {
             if (string.IsNullOrWhiteSpace(helpStringContent)) return helpStringContent;
-            
+
             helpStringContent = HttpUtility.HtmlDecode(helpStringContent);
 
             foreach (var escapingPattern in _escapingPattern)
@@ -55,7 +55,7 @@ namespace Norika.MsBuild.Core.Data.Help
             try
             {
                 var document = XDocument.Parse(help);
-                if(string.IsNullOrWhiteSpace(document.ToString()) == false)
+                if (string.IsNullOrWhiteSpace(document.ToString()) == false)
                     return MsBuildHelpCodeBlockLanguage.Xml;
             }
             catch (XmlException)
@@ -71,14 +71,14 @@ namespace Norika.MsBuild.Core.Data.Help
             StringBuilder xmlStringBuilder = new StringBuilder();
 
             XDocument xmlHelpDocument = new XDocument();
-            
+
             XmlWriterSettings writerSettings = new XmlWriterSettings()
             {
                 OmitXmlDeclaration = true,
                 Indent = true,
                 NewLineOnAttributes = true,
                 ConformanceLevel = ConformanceLevel.Fragment,
-                NewLineChars =  "\n"
+                NewLineChars = "\n"
             };
 
             using (XmlWriter xmlWriter = XmlWriter.Create(xmlStringBuilder, writerSettings))
@@ -91,7 +91,7 @@ namespace Norika.MsBuild.Core.Data.Help
 
             return xmlStringBuilder.ToString();
         }
-        
+
         private static XmlDocument ParseXml(string xml)
         {
             XmlDocument document = new XmlDocument();
@@ -102,9 +102,9 @@ namespace Norika.MsBuild.Core.Data.Help
         public static bool IsStringXml(string input)
         {
             string trimmedInputValue = input.Trim();
-            
-            if (string.IsNullOrWhiteSpace(trimmedInputValue) 
-                    || !(trimmedInputValue.StartsWith("<") && trimmedInputValue.EndsWith(">")))
+
+            if (string.IsNullOrWhiteSpace(trimmedInputValue)
+                || !(trimmedInputValue.StartsWith("<") && trimmedInputValue.EndsWith(">")))
                 return false;
 
             try
@@ -119,17 +119,5 @@ namespace Norika.MsBuild.Core.Data.Help
                 return false;
             }
         }
-    }
-
-    public struct MsBuildHelpElementCodeBlock
-    {
-        public MsBuildHelpElementCodeBlock(MsBuildHelpCodeBlockLanguage language, string content)
-        {
-            Language = language;
-            Content = content;
-        }
-        
-        public MsBuildHelpCodeBlockLanguage Language { get; }
-        public string Content { get; }
     }
 }

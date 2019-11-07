@@ -17,6 +17,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="TestData\ProjectFiles\TargetWithCommentInside.tcsproj">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
       <None Include="TestData\ProjectFiles\TargetWithOnError.tcsproj">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
