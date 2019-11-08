@@ -71,8 +71,6 @@ namespace Norika.MsBuild.Core.Data.Help
         {
             StringBuilder xmlStringBuilder = new StringBuilder();
 
-            XDocument xmlHelpDocument = new XDocument();
-
             XmlWriterSettings writerSettings = new XmlWriterSettings()
             {
                 OmitXmlDeclaration = true,
@@ -84,7 +82,7 @@ namespace Norika.MsBuild.Core.Data.Help
 
             using (XmlWriter xmlWriter = XmlWriter.Create(xmlStringBuilder, writerSettings))
             {
-                foreach (XmlNode child in ParseXml(inputString).ChildNodes)
+                foreach (XmlNode child in ParseXml(inputString).DocumentElement.ChildNodes)
                 {
                     child.WriteTo(xmlWriter);
                 }
@@ -95,8 +93,10 @@ namespace Norika.MsBuild.Core.Data.Help
 
         private static XmlDocument ParseXml(string xml)
         {
+            string rootedXml = $"<TempXmlRoot>{xml}</TempXmlRoot>";
+
             XmlDocument document = new XmlDocument();
-            document.LoadXml(xml);
+            document.LoadXml(rootedXml);
             return document;
         }
 

@@ -96,6 +96,17 @@ namespace Norika.MsBuild.Data.UnitTests
         }
 
         [TestMethod]
+        public void FormatXml_WithMultipleRootNodeXmlInputStringInOneRow_ShouldReturnFormattedXml()
+        {
+            string inputString = "<!-- This is a xml comment --><xml><node id='1'>Test</node></xml><xml><test/></xml>";
+            string expectedString =
+                "<!-- This is a xml comment -->\n<xml>\n  <node\n    id=\"1\">Test</node>\n</xml>\n<xml>\n  <test />\n</xml>";
+
+            Assert.AreEqual(expectedString,
+                MsBuildElementHelpCodeBlockUtility.FormatXml(inputString));
+        }
+
+        [TestMethod]
         public void FormatXml_WithValidXmlInputStringInOneRowAndCommentOnTheEnd_ShouldReturnFormattedXml()
         {
             string inputString = "<xml><node id='1'>Test</node></xml><!-- This is a xml comment -->";
