@@ -54,9 +54,10 @@ namespace Norika.MsBuild.Core.Data.Help
         {
             try
             {
-                var document = XDocument.Parse(help);
+                /*var document = XDocument.Parse(help);
                 if (string.IsNullOrWhiteSpace(document.ToString()) == false)
-                    return MsBuildHelpCodeBlockLanguage.Xml;
+                    return MsBuildHelpCodeBlockLanguage.Xml;*/
+                if (IsStringXml(help)) return MsBuildHelpCodeBlockLanguage.Xml;
             }
             catch (XmlException)
             {
@@ -107,10 +108,11 @@ namespace Norika.MsBuild.Core.Data.Help
                 || !(trimmedInputValue.StartsWith("<") && trimmedInputValue.EndsWith(">")))
                 return false;
 
+            string decodedString = Decode(input);
             try
             {
                 ParseXml(
-                    string.Format(CultureInfo.InvariantCulture, "<root>{0}</root>", trimmedInputValue));
+                    string.Format(CultureInfo.InvariantCulture, "<root>{0}</root>", decodedString));
                 return true;
             }
             catch (XmlException xmlException)
