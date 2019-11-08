@@ -7,6 +7,36 @@ namespace Norika.MsBuild.Data.UnitTests
     public class MsBuildElementHelpCodeBlockUtilityUnitTest
     {
         [TestMethod]
+        public void Parse_WithValidXmlInput_ShouldReturnObjectWithLanguageXml()
+        {
+            string xmlInput = "<xml>test</xml>";
+
+            MsBuildHelpElementCodeBlock codeBlock = MsBuildElementHelpCodeBlockUtility.Parse(xmlInput);
+
+            Assert.AreEqual(MsBuildHelpCodeBlockLanguage.Xml, codeBlock.Language);
+        }
+
+        [TestMethod]
+        public void Parse_WithBatchInput_ShouldReturnObjectWithLanguageSh()
+        {
+            string xmlInput = "msbuild test.targets /t:CallTest";
+
+            MsBuildHelpElementCodeBlock codeBlock = MsBuildElementHelpCodeBlockUtility.Parse(xmlInput);
+
+            Assert.AreEqual(MsBuildHelpCodeBlockLanguage.Sh, codeBlock.Language);
+        }
+
+        [TestMethod]
+        public void Parse_WithValidEncodedXmlCommentInput_ShouldDecodeStringContent()
+        {
+            string xmlInput = "<!~~ Test ~~>";
+
+            MsBuildHelpElementCodeBlock codeBlock = MsBuildElementHelpCodeBlockUtility.Parse(xmlInput);
+
+            Assert.AreEqual("<!-- Test -->", codeBlock.Content);
+        }
+
+        [TestMethod]
         public void Decode_WithStartAndEndIdentifierWithTildeAsMinus_ShouldReplaceTildeWithMinus()
         {
             string inputString = "<!~~ This is an encoded xml comment ~~>";
@@ -76,6 +106,7 @@ namespace Norika.MsBuild.Data.UnitTests
                 MsBuildElementHelpCodeBlockUtility.GetLanguage(inputString));
         }
 
+
         [TestMethod]
         public void GetLanguage_WithMsBuildCommandLineCall_ShouldReturnBatch()
         {
@@ -124,9 +155,30 @@ namespace Norika.MsBuild.Data.UnitTests
         }
 
         [TestMethod]
-        public void IsStringXml_WithDecodedXmlComment_ShouldReturnTrue()
+        public void IsStringXml_WithEmptyInput_ShouldReturnFalse()
+        {
+            string input = "";
+            Assert.IsFalse(MsBuildElementHelpCodeBlockUtility.IsStringXml(input));
+        }
+
+        [TestMethod]
+        public void IsStringXml_WithNullInput_ShouldReturnFalse()
+        {
+            string input = null;
+            Assert.IsFalse(MsBuildElementHelpCodeBlockUtility.IsStringXml(input));
+        }
+
+        [TestMethod]
+        public void IsStringXml_WithClosingXmlComment_ShouldReturnTrue()
         {
             string input = "<TestValue></TestValue><!~~ This is a decoded comment ~~>";
+            Assert.IsTrue(MsBuildElementHelpCodeBlockUtility.IsStringXml(input));
+        }
+
+        [TestMethod]
+        public void IsStringXml_WithLeadingXmlComment_ShouldReturnTrue()
+        {
+            string input = "<!-- This is a decoded comment --><TestValue></TestValue>";
             Assert.IsTrue(MsBuildElementHelpCodeBlockUtility.IsStringXml(input));
         }
 
@@ -148,6 +200,13 @@ namespace Norika.MsBuild.Data.UnitTests
         public void IsStringXml_WithXmlInput_ShouldReturnTrue()
         {
             string input = "<root><element /><xml>bullshit</xml></root>";
+            Assert.IsTrue(MsBuildElementHelpCodeBlockUtility.IsStringXml(input));
+        }
+
+        [TestMethod]
+        public void IsStringXml_WithTwoRootNodesInput_ShouldReturnTrue()
+        {
+            string input = "<root><element /><xml>bullshit</xml></root><root><test /></root>";
             Assert.IsTrue(MsBuildElementHelpCodeBlockUtility.IsStringXml(input));
         }
     }

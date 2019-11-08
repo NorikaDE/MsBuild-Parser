@@ -52,20 +52,9 @@ namespace Norika.MsBuild.Core.Data.Help
 
         public static MsBuildHelpCodeBlockLanguage GetLanguage(string help)
         {
-            try
-            {
-                /*var document = XDocument.Parse(help);
-                if (string.IsNullOrWhiteSpace(document.ToString()) == false)
-                    return MsBuildHelpCodeBlockLanguage.Xml;*/
-                if (IsStringXml(help)) return MsBuildHelpCodeBlockLanguage.Xml;
-            }
-            catch (XmlException)
-            {
-                return MsBuildHelpCodeBlockLanguage.Sh;
-            }
-
-            return MsBuildHelpCodeBlockLanguage.Sh;
+            return IsStringXml(help) ? MsBuildHelpCodeBlockLanguage.Xml : MsBuildHelpCodeBlockLanguage.Sh;
         }
+
 
         public static string FormatXml(string inputString)
         {
@@ -102,10 +91,12 @@ namespace Norika.MsBuild.Core.Data.Help
 
         public static bool IsStringXml(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
             string trimmedInputValue = input.Trim();
 
-            if (string.IsNullOrWhiteSpace(trimmedInputValue)
-                || !(trimmedInputValue.StartsWith("<") && trimmedInputValue.EndsWith(">")))
+            if (!(trimmedInputValue.StartsWith("<") && trimmedInputValue.EndsWith(">")))
                 return false;
 
             string decodedString = Decode(input);

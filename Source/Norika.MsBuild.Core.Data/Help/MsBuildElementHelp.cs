@@ -15,6 +15,11 @@ namespace Norika.MsBuild.Core.Data.Help
             _paragraphs = new List<IMsBuildElementHelpParagraph>();
         }
 
+        public MsBuildElementHelp(IList<IMsBuildElementHelpParagraph> wrapperList)
+        {
+            _paragraphs = wrapperList;
+        }
+
         public IEnumerator<IMsBuildElementHelpParagraph> GetEnumerator()
         {
             return _paragraphs.GetEnumerator();
