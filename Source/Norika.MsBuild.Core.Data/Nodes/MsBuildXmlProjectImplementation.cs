@@ -22,7 +22,6 @@ namespace Norika.MsBuild.Core.Data.Nodes
             InitializeAttributes();
             MsBuildElementFactory factory = new MsBuildElementFactory();
 
-
             InitializeContent<IMsBuildTarget>(factory);
             InitializeContent<IMsBuildPropertyGroup>(factory);
         }
