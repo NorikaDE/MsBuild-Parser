@@ -12,13 +12,12 @@ namespace Norika.MsBuild.Core.Data
             document.LoadXml(content);
             return new MsBuildXmlProjectImplementation(document);
         }
-        
+
         public static IMsBuildProject Load(string path)
         {
             XmlDocument document = new XmlDocument();
             document.Load(path);
             return new MsBuildXmlProjectImplementation(document);
         }
-        
     }
 }

@@ -85,7 +85,6 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
             Assert.AreEqual("Viktor-Fabian Müller", properties.FirstOrDefault(p => p.Name.Equals("Author"))?.Value);
         }
 
-
         [TestMethod]
         [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
         public void
@@ -98,7 +97,6 @@ namespace Norika.MsBuild.Core.Data.IntegrationTest
 
             Assert.AreEqual("CoreCompile", target.BeforeTargets.First());
         }
-
 
         [TestMethod]
         [DeploymentItem("TestData/ProjectFiles/Test.tcsproj")]
