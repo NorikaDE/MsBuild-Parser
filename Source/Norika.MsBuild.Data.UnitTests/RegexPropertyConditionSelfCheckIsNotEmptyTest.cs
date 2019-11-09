@@ -16,13 +16,13 @@ namespace Norika.MsBuild.Data.UnitTests
         {
             _sut = RegexPropertyConditionSelfCheckTestHelper.GetSystemUnderTestForSelfCheckIsNotEmpty(TestPropertyName);
         }
-        
+
         [TestMethod]
         public void Match_WithEmptyCondition_ShouldNotMatch()
         {
             string inputValue = "";
 
-            Assert.IsFalse(_sut.IsMatch(inputValue), 
+            Assert.IsFalse(_sut.IsMatch(inputValue),
                 "Empty condition should not match.");
         }
 
@@ -31,14 +31,14 @@ namespace Norika.MsBuild.Data.UnitTests
         {
             string inputValue = "$(OtherProperty)!='true'";
 
-            Assert.IsFalse(_sut.IsMatch(inputValue), 
+            Assert.IsFalse(_sut.IsMatch(inputValue),
                 "Should not match if current property condition does not contain own property check.");
         }
 
         [TestMethod]
         public void Match_WithConditionCheckingPropertyForSpecificValue_ShouldNotMatch()
         {
-            string inputValue = "$("+ TestPropertyName + ")!='true'";
+            string inputValue = "$(" + TestPropertyName + ")!='true'";
 
             Assert.IsFalse(_sut.IsMatch(inputValue),
                 "Should not match if current property condition checks for specific value different from empty or null.");
@@ -72,7 +72,8 @@ namespace Norika.MsBuild.Data.UnitTests
         }
 
         [TestMethod]
-        public void Match_WitConditionCheckingQuotedPropertyIsEmptyAndSingleSpaceBetweenPropertyAndOperator_ShouldMatch()
+        public void
+            Match_WitConditionCheckingQuotedPropertyIsEmptyAndSingleSpaceBetweenPropertyAndOperator_ShouldMatch()
         {
             string inputValue = "'$(" + TestPropertyName + ")' !=''";
 
@@ -81,14 +82,14 @@ namespace Norika.MsBuild.Data.UnitTests
         }
 
         [TestMethod]
-        public void Match_WitConditionCheckingQuotedPropertyIsEmptyAndMultipleSpaceBetweenPropertyAndOperator_ShouldMatch()
+        public void
+            Match_WitConditionCheckingQuotedPropertyIsEmptyAndMultipleSpaceBetweenPropertyAndOperator_ShouldMatch()
         {
             string inputValue = "'$(" + TestPropertyName + ")'  !=''";
 
             Assert.IsTrue(_sut.IsMatch(inputValue),
                 "Checking the current property for not empty should match regular expression if the property is quoted and space before operator.");
         }
-
 
         [TestMethod]
         public void Match_WitConditionCheckingQuotedPropertyIsEmptyAndSingleSpaceBeforeAndAfterOperator_ShouldMatch()
@@ -138,7 +139,8 @@ namespace Norika.MsBuild.Data.UnitTests
         [TestMethod]
         public void Match_WitConditionCheckingPropertyAsSecondCheckInMultipleCondition_ShouldMatch()
         {
-            string inputValue = "$(SpecificProperty) != '' AND $(" + TestPropertyName + ") != '' AND $(OtherProperty) != ''";
+            string inputValue = "$(SpecificProperty) != '' AND $(" + TestPropertyName +
+                                ") != '' AND $(OtherProperty) != ''";
 
             Assert.IsTrue(_sut.IsMatch(inputValue),
                 "Should match if condition with multiple checks contain a property self check for not empty.");
@@ -147,7 +149,8 @@ namespace Norika.MsBuild.Data.UnitTests
         [TestMethod]
         public void Match_WitConditionCheckingMultipleCasesButWithoutPropertySelfNotEmptyCheck_ShouldNotMatch()
         {
-            string inputValue = "$(SpecificProperty) != '' AND $(" + TestPropertyName + ") == 'Value' AND $(OtherProperty) != ''";
+            string inputValue = "$(SpecificProperty) != '' AND $(" + TestPropertyName +
+                                ") == 'Value' AND $(OtherProperty) != ''";
 
             Assert.IsFalse(_sut.IsMatch(inputValue),
                 "Should not match if condition does not contain a property self check for not empty.");

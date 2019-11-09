@@ -69,7 +69,6 @@ namespace Norika.MsBuild.Data.UnitTests
             Assert.AreEqual(string.Empty, MsBuildElementHelpCodeBlockUtility.Decode(string.Empty));
         }
 
-
         [TestMethod]
         public void GetLanguage_WithValidXmlInputString_ShouldReturnXml()
         {
@@ -105,7 +104,6 @@ namespace Norika.MsBuild.Data.UnitTests
             Assert.AreEqual(MsBuildHelpCodeBlockLanguage.Sh,
                 MsBuildElementHelpCodeBlockUtility.GetLanguage(inputString));
         }
-
 
         [TestMethod]
         public void GetLanguage_WithMsBuildCommandLineCall_ShouldReturnBatch()

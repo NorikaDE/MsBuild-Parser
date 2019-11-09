@@ -24,29 +24,28 @@ namespace Norika.MsBuild.Core.Data
         public virtual T Create<T>(XmlElement element) where T : IMsBuildElement
         {
             IMsBuildElement createdObject = null;
-            
-            if (typeof(T) == typeof(IMsBuildTarget) 
-                && MsBuildXmlTargetImplementation.XmlElementName.Equals(element.Name, 
+
+            if (typeof(T) == typeof(IMsBuildTarget)
+                && MsBuildXmlTargetImplementation.XmlElementName.Equals(element.Name,
                     StringComparison.OrdinalIgnoreCase))
             {
                 createdObject = new MsBuildXmlTargetImplementation(element);
             }
 
             if (typeof(T) == typeof(IMsBuildOnError)
-                && MsBuildXmlOnErrorTaskImplementation.XmlElementName.Equals(element.Name, 
+                && MsBuildXmlOnErrorTaskImplementation.XmlElementName.Equals(element.Name,
                     StringComparison.OrdinalIgnoreCase))
             {
                 createdObject = new MsBuildXmlOnErrorTaskImplementation(element);
-                
             }
-            
+
             if (typeof(T) == typeof(IMsBuildPropertyGroup)
-                && MsBuildXmlPropertyGroupImplementation.XmlElementName.Equals(element.Name, 
+                && MsBuildXmlPropertyGroupImplementation.XmlElementName.Equals(element.Name,
                     StringComparison.OrdinalIgnoreCase))
             {
                 createdObject = new MsBuildXmlPropertyGroupImplementation(element);
-                
             }
+
             return (T) createdObject;
         }
     }

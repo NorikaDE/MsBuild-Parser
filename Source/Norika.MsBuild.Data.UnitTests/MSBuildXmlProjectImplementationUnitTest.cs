@@ -185,7 +185,6 @@ namespace Norika.MsBuild.Data.UnitTests
             Assert.AreEqual("Target99", project.GetChildren<IMsBuildTarget>().Last().Name);
         }
 
-
         [TestMethod]
         public void CopyTo_Array_ShouldCopyAllValuesToArray()
         {
