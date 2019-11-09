@@ -50,7 +50,6 @@ namespace Norika.MsBuild.Core.Data.Help
             _paragraphs.CopyTo(array, arrayIndex);
         }
 
-
         public bool Remove(IMsBuildElementHelpParagraph item)
         {
             return _paragraphs.Remove(item);
@@ -92,6 +91,9 @@ namespace Norika.MsBuild.Core.Data.Help
 
         public bool Remove(string paragraphName, bool distinctOnly)
         {
+            if (_paragraphs.Count(p => p.Name.Equals(paragraphName)) > 1 && distinctOnly)
+                return false;
+
             IList<IMsBuildElementHelpParagraph> removeItems =
                 _paragraphs.Where(x => x.Name.Equals(paragraphName)).ToList();
 

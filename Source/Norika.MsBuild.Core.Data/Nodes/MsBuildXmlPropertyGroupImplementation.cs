@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml;
 using Norika.MsBuild.Core.Data.Elements;
@@ -9,39 +10,43 @@ using Norika.MsBuild.Model.Interfaces;
 
 namespace Norika.MsBuild.Core.Data.Nodes
 {
-    public class MsBuildXmlPropertyGroupImplementation : MsBuildXmlNode ,IMsBuildPropertyGroup
+    public class MsBuildXmlPropertyGroupImplementation : MsBuildXmlNode, IMsBuildPropertyGroup
     {
         public new static string XmlElementName = "PropertyGroup";
-        
+
         private readonly IList<IMsBuildProperty> _properties;
 
         private readonly XmlElement _element;
 
-        private MsBuildXmlPropertyGroupImplementation(XmlElement element, IList<IMsBuildProperty> properties) : base(element)
+        private MsBuildXmlPropertyGroupImplementation(XmlElement element, IList<IMsBuildProperty> properties) :
+            base(element)
         {
-            _element = element ?? throw new ArgumentNullException(nameof(element), "The xml element implementation should not be null!");
+            _element = element ?? throw new ArgumentNullException(nameof(element),
+                           "The xml element implementation should not be null!");
             _properties = properties;
 
             InitializeProperties();
-            
         }
 
         private void InitializeProperties()
         {
             foreach (XmlElement property in _element.ChildNodes.OfType<XmlElement>())
             {
-                if(property.NodeType != XmlNodeType.Comment)
+                if (property.NodeType != XmlNodeType.Comment)
                     _properties.Add(new MsBuildXmlPropertyImplementation(property));
             }
         }
 
-        public MsBuildXmlPropertyGroupImplementation(XmlElement element) : this(element, new List<IMsBuildProperty>()) { }
+        public MsBuildXmlPropertyGroupImplementation(XmlElement element) : this(element, new List<IMsBuildProperty>())
+        {
+        }
 
         public IEnumerator<IMsBuildProperty> GetEnumerator()
         {
             return _properties.GetEnumerator();
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -75,7 +80,7 @@ namespace Norika.MsBuild.Core.Data.Nodes
         public int Count => _properties.Count;
 
         public bool IsReadOnly => _properties.IsReadOnly;
-        
+
         public int IndexOf(IMsBuildProperty item)
         {
             return _properties.IndexOf(item);
@@ -96,13 +101,14 @@ namespace Norika.MsBuild.Core.Data.Nodes
             get => _properties[index];
             set => _properties[index] = value;
         }
-        
+
         public new IList<T> GetChildren<T>() where T : class, IMsBuildElement
         {
             if (typeof(T) == typeof(IMsBuildProperty))
             {
                 return (IList<T>) _properties;
             }
+
             return new List<T>();
         }
     }

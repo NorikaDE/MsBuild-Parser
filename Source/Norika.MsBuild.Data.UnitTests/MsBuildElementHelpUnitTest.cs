@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Norika.MsBuild.Core.Data.Help;
@@ -164,6 +166,167 @@ namespace Norika.MsBuild.Data.UnitTests
                 listMock.Verify(l => l.GetEnumerator(),
                     Times.Exactly(1));
             }
+        }
+
+        [TestMethod]
+        public void CopyTo_ShouldPassThroughInvocationToWrappedImplementation()
+        {
+            Mock<IList<IMsBuildElementHelpParagraph>> listMock = new Mock<IList<IMsBuildElementHelpParagraph>>();
+            MsBuildElementHelp elementHelp = new MsBuildElementHelp(listMock.Object);
+
+            IMsBuildElementHelpParagraph[] helpParagraphsArray = new IMsBuildElementHelpParagraph[10];
+
+            elementHelp.CopyTo(helpParagraphsArray, 7);
+
+            listMock.Verify(l => l.CopyTo(It.IsAny<IMsBuildElementHelpParagraph[]>(),
+                It.Is<int>(i => i == 7)));
+        }
+
+        [TestMethod]
+        public void Remove_WithStringValueRepresentingOneHelpParagraph_ShouldRemoveMatchingParagraph()
+        {
+            string matchingParagraph = "JOHNDOE";
+
+            Mock<IMsBuildElementHelpParagraph> paragraphOne = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphOne.Setup(p => p.Name).Returns(matchingParagraph);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                paragraphOne.Object,
+                paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+
+            Assert.IsTrue(paragraphsList.Any(p => p.Name.Equals(matchingParagraph)),
+                $"Not altered list should contain item with name '${matchingParagraph}'");
+
+            sutHelp.Remove(matchingParagraph, false);
+
+            Assert.IsFalse(paragraphsList.Any(p => p.Name.Equals(matchingParagraph)),
+                $"After remove item the list should not contain a item named '{matchingParagraph}'");
+        }
+
+        [TestMethod]
+        public void
+            Remove_WithStringValueRepresentingMultipleHelpParagraphsAndRemoveOptionDistinctOnlyFalse_ShouldRemoveMatchingParagraph()
+        {
+            string matchingParagraph = "JOHNDOE";
+
+            Mock<IMsBuildElementHelpParagraph> paragraphOne = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphOne.Setup(p => p.Name).Returns(matchingParagraph);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                paragraphOne.Object,
+                paragraphOne.Object,
+                paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+
+            Assert.IsTrue(paragraphsList.Any(p => p.Name.Equals(matchingParagraph)),
+                $"Not altered list should contain item with name '${matchingParagraph}'");
+
+            sutHelp.Remove(matchingParagraph, false);
+
+            Assert.IsFalse(paragraphsList.Any(p => p.Name.Equals(matchingParagraph)),
+                $"After remove item the list should not contain a item named '{matchingParagraph}'");
+        }
+
+        [TestMethod]
+        public void
+            Remove_WithStringValueRepresentingMultipleHelpParagraphsAndRemoveOptionDistinctOnlyTrue_ShouldNotRemoveMatchingParagraph()
+        {
+            string matchingParagraph = "JOHNDOE";
+
+            Mock<IMsBuildElementHelpParagraph> paragraphOne = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphOne.Setup(p => p.Name).Returns(matchingParagraph);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                paragraphOne.Object,
+                paragraphOne.Object,
+                paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+
+            Assert.IsTrue(paragraphsList.Any(p => p.Name.Equals(matchingParagraph)),
+                $"Not altered list should contain item with name '${matchingParagraph}'");
+
+            sutHelp.Remove(matchingParagraph, true);
+
+            Assert.IsTrue(paragraphsList.Any(p => p.Name.Equals(matchingParagraph)),
+                $"After remove item the list should contain a items named '{matchingParagraph}' when remove distinct only is set to false");
+        }
+
+        [TestMethod]
+        public void ContainsSection_WithStringValueNotRepresentingParagraph_ShouldReturnFalse()
+        {
+            Mock<IMsBuildElementHelpParagraph> paragraphOne = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphOne.Setup(p => p.Name).Returns("EITHERNOTRELEVANT");
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                paragraphOne.Object, paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+
+            Assert.IsFalse(sutHelp.ContainsSection("SEARCH", StringComparison.Ordinal),
+                "No named paragraph like the search string in the list should return false.");
+        }
+
+        [TestMethod]
+        public void ContainsSection_WithStringValueWithDifferentCaseParagraphWithStringOrdinal_ShouldReturnFalse()
+        {
+            string searchPattern = "JOHNEDOE";
+
+            Mock<IMsBuildElementHelpParagraph> paragraphOne = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphOne.Setup(p => p.Name).Returns(searchPattern);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                paragraphOne.Object, paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+
+            Assert.IsFalse(sutHelp.ContainsSection(searchPattern.ToLower(), StringComparison.Ordinal),
+                "Same string value but different case should return false if string comparision is not set to ignore case.");
+        }
+
+        [TestMethod]
+        public void
+            ContainsSection_WithStringValueWithDifferentCaseParagraphWithStringOrdinalIgnoreCase_ShouldReturnTrue()
+        {
+            string searchPattern = "JOHNEDOE";
+
+            Mock<IMsBuildElementHelpParagraph> paragraphOne = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphOne.Setup(p => p.Name).Returns(searchPattern);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                paragraphOne.Object, paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+
+            Assert.IsTrue(sutHelp.ContainsSection(searchPattern.ToLower(), StringComparison.OrdinalIgnoreCase),
+                "Same string value with different case should return true if string comparision is set to ignore case");
         }
     }
 }

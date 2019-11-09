@@ -9,16 +9,15 @@ namespace Norika.MsBuild.Core.Data.Converter
         public IMsBuildElementHelp Convert(IXmlHelp xmlHelp)
         {
             IMsBuildElementHelp msBuildElementHelp = new MsBuildElementHelp();
-            XmlHelpParagraphToMsBuildElementHelpParagraphConverter converter = 
+            XmlHelpParagraphToMsBuildElementHelpParagraphConverter converter =
                 new XmlHelpParagraphToMsBuildElementHelpParagraphConverter();
-            
+
             foreach (var xmlHelpParagraph in xmlHelp)
             {
                 msBuildElementHelp.Add(converter.Convert(xmlHelpParagraph));
             }
+
             return msBuildElementHelp;
         }
-
-       
     }
 }

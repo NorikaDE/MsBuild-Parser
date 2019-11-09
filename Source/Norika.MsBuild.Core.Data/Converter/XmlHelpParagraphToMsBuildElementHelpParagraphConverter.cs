@@ -12,23 +12,22 @@ namespace Norika.MsBuild.Core.Data.Converter
         public IMsBuildElementHelpParagraph Convert(IXmlCommentHelpParagraph xmlHelp)
         {
             StringBuilder stringContentBuilder = new StringBuilder();
-            
+
             foreach (string line in xmlHelp.Content)
             {
                 stringContentBuilder.Append(line.Trim());
-                stringContentBuilder.Append(Environment.NewLine);
+                stringContentBuilder.Append('\n');
             }
 
             string content = stringContentBuilder.ToString();
 
-            if (content.EndsWith(Environment.NewLine))
-                content = content.TrimEnd(Environment.NewLine.ToCharArray());
-            
-            IMsBuildElementHelpParagraph msBuildElementHelp = new MsBuildElementHelpParagraph(xmlHelp.Name, content, xmlHelp.Additional);
-            
+            if (content.EndsWith('\n'))
+                content = content.TrimEnd('\n');
+
+            IMsBuildElementHelpParagraph msBuildElementHelp =
+                new MsBuildElementHelpParagraph(xmlHelp.Name, content, xmlHelp.Additional);
+
             return msBuildElementHelp;
         }
-
-       
     }
 }

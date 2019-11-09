@@ -24,7 +24,6 @@ namespace Norika.MsBuild.Data.UnitTests
             string outputValue = string.Format(_sutFormatter, "{0:Property}", arg0: inputValue);
 
             Assert.AreEqual("$(Property)", outputValue);
-
         }
 
         [TestMethod]
@@ -35,7 +34,6 @@ namespace Norika.MsBuild.Data.UnitTests
             string outputValue = string.Format(_sutFormatter, "{0:ItemGroup}", arg0: inputValue);
 
             Assert.AreEqual("@(ItemGroup)", outputValue);
-
         }
 
         [TestMethod]
@@ -46,7 +44,6 @@ namespace Norika.MsBuild.Data.UnitTests
             string outputValue = string.Format(_sutFormatter, "{0:ItemGroup}", arg0: inputValue);
 
             Assert.AreEqual(inputValue, outputValue);
-
         }
 
         [TestMethod]
@@ -55,7 +52,6 @@ namespace Norika.MsBuild.Data.UnitTests
             string outputValue = string.Format(_sutFormatter, "");
 
             Assert.AreEqual("", outputValue);
-
         }
 
         [TestMethod]
@@ -64,7 +60,6 @@ namespace Norika.MsBuild.Data.UnitTests
             string outputValue = string.Format(_sutFormatter, "Hallo {0:Property}", arg0: null);
 
             Assert.AreEqual("Hallo ", outputValue);
-
         }
 
         [TestMethod]
@@ -73,17 +68,17 @@ namespace Norika.MsBuild.Data.UnitTests
             string inputValue1 = "ItemGroup";
             string inputValue2 = "Property";
 
-            string outputValue = string.Format(_sutFormatter, "{0:ItemGroup} is not {1:Property}", inputValue1, inputValue2);
+            string outputValue = string.Format(_sutFormatter, "{0:ItemGroup} is not {1:Property}", inputValue1,
+                inputValue2);
 
             Assert.AreEqual("@(ItemGroup) is not $(Property)", outputValue);
-
         }
 
         [TestMethod]
         public void GetFormat_WithStringTypeInput_ShouldReturnNull()
         {
             MsBuildStringFormatProvider provider = new MsBuildStringFormatProvider();
-            
+
             Assert.IsNull(provider.GetFormat(typeof(string)));
         }
 
@@ -93,17 +88,14 @@ namespace Norika.MsBuild.Data.UnitTests
             MsBuildStringFormatter formatter = new MsBuildStringFormatter();
 
             Assert.AreEqual(string.Empty, formatter.Format("{0}", "Test", DateTimeFormatInfo.CurrentInfo));
-
         }
-        
+
         [TestMethod]
         public void Format_WithEmptyFormatString_ShouldReturnArgument()
         {
             MsBuildStringFormatter formatter = new MsBuildStringFormatter();
 
             Assert.AreEqual("Test", formatter.Format(string.Empty, "Test", _sutFormatter));
-
         }
-        
     }
 }

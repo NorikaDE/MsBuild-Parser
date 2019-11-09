@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Norika.MsBuild.Model.Interfaces;
 
 namespace Norika.MsBuild.Core.Data.Help
 {
+    [ExcludeFromCodeCoverage]
     public class MsBuildElementHelpParagraph : IMsBuildElementHelpParagraph
     {
         public MsBuildElementHelpParagraph(string name, string content, string additional)

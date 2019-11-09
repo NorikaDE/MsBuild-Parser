@@ -8,7 +8,7 @@ using Norika.MsBuild.Model.Interfaces;
 
 namespace Norika.MsBuild.Core.Data.Nodes
 {
-    public class MsBuildXmlProjectImplementation : MsBuildXmlNode ,IMsBuildProject
+    public class MsBuildXmlProjectImplementation : MsBuildXmlNode, IMsBuildProject
     {
         private readonly IList<IMsBuildElement> _elements;
 
@@ -21,8 +21,8 @@ namespace Norika.MsBuild.Core.Data.Nodes
 
             InitializeAttributes();
             MsBuildElementFactory factory = new MsBuildElementFactory();
-            
-            
+
+
             InitializeContent<IMsBuildTarget>(factory);
             InitializeContent<IMsBuildPropertyGroup>(factory);
         }
@@ -32,12 +32,11 @@ namespace Norika.MsBuild.Core.Data.Nodes
             foreach (XmlElement childElement in _element.ChildNodes.OfType<XmlElement>())
             {
                 T target = factory.Create<T>(childElement);
-                
-                if(target != null)
+
+                if (target != null)
                     _elements.Add(target);
             }
         }
-
 
         public override IList<T> GetChildren<T>()
         {
@@ -52,18 +51,18 @@ namespace Norika.MsBuild.Core.Data.Nodes
 
                 return properties;
             }
-            
+
             return _elements.OfType<T>().ToList();
         }
-
 
         private void InitializeAttributes()
         {
             DefaultTargets = new List<string>();
             InitialTargets = new List<string>();
-            
-            MsBuildVersion = (string.IsNullOrWhiteSpace(XmlElement.GetAttribute("ToolsVersion")) ?
-                              null : XmlElement.GetAttribute("ToolsVersion"));
+
+            MsBuildVersion = (string.IsNullOrWhiteSpace(XmlElement.GetAttribute("ToolsVersion"))
+                ? null
+                : XmlElement.GetAttribute("ToolsVersion"));
             DefaultTargets = XmlElement.GetAttribute("DefaultTargets")?.SplitByDefaultSeparator();
             InitialTargets = XmlElement.GetAttribute("InitialTargets")?.SplitByDefaultSeparator();
         }
@@ -105,7 +104,7 @@ namespace Norika.MsBuild.Core.Data.Nodes
 
         public int Count => _elements.Count;
         public bool IsReadOnly => _elements.IsReadOnly;
-        
+
         public int IndexOf(IMsBuildElement item)
         {
             return _elements.IndexOf(item);
@@ -113,7 +112,7 @@ namespace Norika.MsBuild.Core.Data.Nodes
 
         public void Insert(int index, IMsBuildElement item)
         {
-            _elements.Insert(index,item);
+            _elements.Insert(index, item);
         }
 
         public void RemoveAt(int index)

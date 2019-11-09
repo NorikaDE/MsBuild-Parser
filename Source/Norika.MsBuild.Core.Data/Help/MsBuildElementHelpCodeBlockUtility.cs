@@ -21,7 +21,6 @@ namespace Norika.MsBuild.Core.Data.Help
             {"~~>", "-->"}
         };
 
-
         public static MsBuildHelpElementCodeBlock Parse(string helpStringContent)
         {
             helpStringContent = Decode(helpStringContent);
@@ -54,7 +53,6 @@ namespace Norika.MsBuild.Core.Data.Help
         {
             return IsStringXml(help) ? MsBuildHelpCodeBlockLanguage.Xml : MsBuildHelpCodeBlockLanguage.Sh;
         }
-
 
         public static string FormatXml(string inputString)
         {

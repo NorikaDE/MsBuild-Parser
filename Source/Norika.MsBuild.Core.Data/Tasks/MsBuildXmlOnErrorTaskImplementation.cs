@@ -6,7 +6,6 @@ using Norika.MsBuild.Model.Interfaces.Tasks;
 
 namespace Norika.MsBuild.Core.Data.Tasks
 {
-
     public class MsBuildXmlOnErrorTaskImplementation : MsBuildXmlTask, IMsBuildOnError
     {
         /// <inheritdoc cref="IMsBuildOnError.ExecuteTargets"/>
@@ -17,7 +16,6 @@ namespace Norika.MsBuild.Core.Data.Tasks
             ExecuteTargets = element.GetAttributeValueList(nameof(ExecuteTargets));
         }
 
-        
         public new static string XmlElementName = "OnError";
     }
 }

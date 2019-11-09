@@ -15,72 +15,74 @@ namespace Norika.MsBuild.Data.UnitTests
         public void Construct_WithToolSetVersion_ShouldInitializeToolSetProperty()
         {
             string projectXml = "<Project ToolsVersion=\"15.0\"></Project>";
-            
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
-            
+
             Assert.AreEqual("15.0", project.MsBuildVersion);
         }
-        
+
         [TestMethod]
         public void Construct_WithOneDefaultTarget_ShouldInitializeDefaultTargetWithCorrectValue()
         {
             string projectXml = "<Project DefaultTargets=\"TargetA\"></Project>";
-            
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
-            
+
             Assert.AreEqual("TargetA", project.DefaultTargets[0]);
         }
-        
+
         [TestMethod]
         public void Construct_WithOneInitialTarget_ShouldInitializeInitialTargetWithCorrectValue()
         {
             string projectXml = "<Project InitialTargets=\"TargetA\"></Project>";
-            
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
-            
+
             Assert.AreEqual("TargetA", project.InitialTargets[0]);
         }
-        
+
         [TestMethod]
         public void Construct_WithInitialTargetAndDefaultTarget_ShouldInitializeBothTargetsWithCorrectValue()
         {
             string projectXml = "<Project InitialTargets=\"TargetA\" DefaultTargets=\"TargetB\"></Project>";
-            
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
-            
+
             Assert.AreEqual("TargetA", project.InitialTargets[0]);
             Assert.AreEqual("TargetB", project.DefaultTargets[0]);
         }
-        
+
         [TestMethod]
-        public void Construct_WithInitialTargetAndDefaultTargetAndToolsVersion_ShouldInitializeBothTargetsAndToolsVersionWithCorrectValue()
+        public void
+            Construct_WithInitialTargetAndDefaultTargetAndToolsVersion_ShouldInitializeBothTargetsAndToolsVersionWithCorrectValue()
         {
-            string projectXml = "<Project InitialTargets=\"TargetA\" DefaultTargets=\"TargetB\" ToolsVersion=\"15.0\"></Project>";
-            
+            string projectXml =
+                "<Project InitialTargets=\"TargetA\" DefaultTargets=\"TargetB\" ToolsVersion=\"15.0\"></Project>";
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
-            
+
             Assert.AreEqual("TargetA", project.InitialTargets[0]);
             Assert.AreEqual("TargetB", project.DefaultTargets[0]);
             Assert.AreEqual("15.0", project.MsBuildVersion);
         }
-        
+
         [TestMethod]
         public void Construct_WithTwoInitialTargets_ShouldInitializeSecondInitialTargetWithCorrectValue()
         {
             string projectXml = "<Project InitialTargets=\"TargetA;TargetB\"></Project>";
-            
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
-            
+
             Assert.AreEqual("TargetB", project.InitialTargets[1]);
         }
-        
+
         [TestMethod]
         public void Construct_WithTwoDefaultTarget_ShouldInitializeSecondDefaultTargetWithCorrectValue()
         {
             string projectXml = "<Project DefaultTargets=\"TargetA;TargetB\"></Project>";
-            
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
-            
+
             Assert.AreEqual("TargetB", project.DefaultTargets[1]);
         }
 
@@ -88,63 +90,66 @@ namespace Norika.MsBuild.Data.UnitTests
         public void Construct_WithoutToolsVersion_ShouldInitializeToolSetWithNull()
         {
             string projectXml = "<Project></Project>";
-            
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
-            
+
             Assert.IsNull(project.MsBuildVersion);
         }
-        
+
         [TestMethod]
         public void GetChildren_WithOnePropertyGroup_ReturnCorrectProperty()
         {
-            string projectXml = "<Project><PropertyGroup><TestProperty>TestValue</TestProperty></PropertyGroup></Project>";
-            
+            string projectXml =
+                "<Project><PropertyGroup><TestProperty>TestValue</TestProperty></PropertyGroup></Project>";
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
 
             IMsBuildPropertyGroup propertyGroup = project.GetChildren<IMsBuildPropertyGroup>().First();
-            
+
             Assert.AreEqual("TestProperty", propertyGroup[0].Name);
             Assert.AreEqual("TestValue", propertyGroup[0].Value);
         }
-        
+
         [TestMethod]
         public void GetChildren_WithOneTarget_ReturnCorrectTarget()
         {
             string projectXml = "<Project><Target Name=\"TestTargetA\"></Target></Project>";
-            
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
 
             IMsBuildTarget target = project.GetChildren<IMsBuildTarget>().First();
-            
+
             Assert.AreEqual("TestTargetA", target.Name);
         }
-        
+
         [TestMethod]
         public void GetChildren_WithTwoTargets_ReturnCorrectTargetsWithName()
         {
-            string projectXml = "<Project><Target Name=\"TestTargetA\"></Target><Target Name=\"TestTargetB\"></Target></Project>";
-            
+            string projectXml =
+                "<Project><Target Name=\"TestTargetA\"></Target><Target Name=\"TestTargetB\"></Target></Project>";
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
 
             IList<IMsBuildTarget> target = project.GetChildren<IMsBuildTarget>();
-            
+
             Assert.AreEqual("TestTargetA", target[0].Name);
             Assert.AreEqual("TestTargetB", target[1].Name);
         }
-        
+
         [TestMethod]
         public void GetChildren_WithTargetAndPropertyGroup_ReturnCorrectTargetAndPropertyGroupContent()
         {
-            string projectXml = "<Project><PropertyGroup><TestProperty>Value</TestProperty></PropertyGroup><Target Name=\"TestTargetA\"></Target></Project>";
-            
+            string projectXml =
+                "<Project><PropertyGroup><TestProperty>Value</TestProperty></PropertyGroup><Target Name=\"TestTargetA\"></Target></Project>";
+
             IMsBuildProject project = new MsBuildXmlProjectImplementation(CreateFromString(projectXml));
 
             IList<IMsBuildTarget> target = project.GetChildren<IMsBuildTarget>();
-            
+
             Assert.AreEqual("TestTargetA", target[0].Name);
 
             IMsBuildPropertyGroup propertyGroup = project.GetChildren<IMsBuildPropertyGroup>().First();
-            
+
             Assert.AreEqual("Value", propertyGroup.First().Value);
             Assert.AreEqual("TestProperty", propertyGroup.First().Name);
         }
@@ -153,20 +158,20 @@ namespace Norika.MsBuild.Data.UnitTests
         public void Count_WithTenItems_ShouldReturnValueTen()
         {
             MsBuildXmlProjectImplementation project = CreateProjectWithMockedContent();
-            
+
             Assert.AreEqual(10, project.Count);
         }
-        
+
         [TestMethod]
         public void Remove_LastItem_ShouldRemoveLastItem()
         {
             MsBuildXmlProjectImplementation project = CreateProjectWithMockedContent();
 
             project.Remove(project.Last());
-            
+
             Assert.AreEqual("Target9", project.GetChildren<IMsBuildTarget>().Last().Name);
         }
-        
+
         [TestMethod]
         public void SetAccessor_NewItem_ShouldReplaceExistentItem()
         {
@@ -176,19 +181,19 @@ namespace Norika.MsBuild.Data.UnitTests
             targetMock.Setup(x => x.Name).Returns("Target99");
 
             project[project.Count - 1] = targetMock.Object;
-            
+
             Assert.AreEqual("Target99", project.GetChildren<IMsBuildTarget>().Last().Name);
         }
-        
-          
+
+
         [TestMethod]
         public void CopyTo_Array_ShouldCopyAllValuesToArray()
         {
             string inputValue = "<Project></Project>";
 
             IMsBuildTarget[] array = new IMsBuildTarget[20];
-            
-            MsBuildXmlProjectImplementation projectImplementation = 
+
+            MsBuildXmlProjectImplementation projectImplementation =
                 new MsBuildXmlProjectImplementation(CreateFromString(inputValue));
 
             for (int i = 0; i <= 10; i++)
@@ -196,34 +201,34 @@ namespace Norika.MsBuild.Data.UnitTests
                 Mock<IMsBuildTarget> mock = new Mock<IMsBuildTarget>();
                 mock.Setup(m => m.Name).Returns($"Target{i}");
 
-                projectImplementation.Add(mock.Object);   
+                projectImplementation.Add(mock.Object);
             }
 
             projectImplementation.CopyTo(array, 0);
-            
+
             Assert.AreEqual("Target0", array[0].Name);
         }
-        
+
         [TestMethod]
         public void Clear_OnList_ShouldRemoveAllItems()
         {
             MsBuildXmlProjectImplementation project = CreateProjectWithMockedContent();
 
             project.Clear();
-            
+
             Assert.AreEqual(0, project.Count);
         }
-        
+
         [TestMethod]
         public void Contains_ExistingItem_ShouldReturnTrue()
         {
             MsBuildXmlProjectImplementation project = CreateProjectWithMockedContent();
 
             IMsBuildTarget target = project.GetChildren<IMsBuildTarget>().First();
-            
+
             Assert.IsTrue(project.Contains(target));
         }
-        
+
         [TestMethod]
         public void Contains_NotExistingItem_ShouldReturnFalse()
         {
@@ -231,10 +236,10 @@ namespace Norika.MsBuild.Data.UnitTests
 
             Mock<IMsBuildTarget> targetMock = new Mock<IMsBuildTarget>();
             targetMock.Setup(x => x.Name).Returns("Target99");
-            
+
             Assert.IsFalse(project.Contains(targetMock.Object));
         }
-        
+
         [TestMethod]
         public void InsertAt_Position5_ShouldAddItemAtPosition5()
         {
@@ -243,18 +248,18 @@ namespace Norika.MsBuild.Data.UnitTests
             Mock<IMsBuildTarget> targetMock = new Mock<IMsBuildTarget>();
             targetMock.Setup(x => x.Name).Returns("Target99");
             project.Insert(5, targetMock.Object);
-            
+
             Assert.AreEqual("Target99", project.GetChildren<IMsBuildTarget>()[5].Name);
         }
-        
+
         [TestMethod]
         public void IsReadOnly_OnList_ShouldReturnFalse()
         {
             MsBuildXmlProjectImplementation project = CreateProjectWithMockedContent();
-            
+
             Assert.IsFalse(project.IsReadOnly);
         }
-        
+
         [TestMethod]
         public void Iterate_OverAllProjectWithAllIMsBuildTargetElements_ShouldGetAllInstancesOfIMsBuildTarget()
         {
@@ -264,7 +269,7 @@ namespace Norika.MsBuild.Data.UnitTests
                 Assert.IsInstanceOfType(buildElement, typeof(IMsBuildTarget));
             }
         }
-        
+
         [TestMethod]
         public void RemoveAt_LastIndex_ShouldRemoveLastItemAndReturnTarget9AsLastOne()
         {
@@ -274,7 +279,7 @@ namespace Norika.MsBuild.Data.UnitTests
 
             Assert.AreEqual("Target9", project.GetChildren<IMsBuildTarget>().Last().Name);
         }
-        
+
         [TestMethod]
         public void IndexOf_ExistingItemAtIndex5_ShouldReturn5()
         {
@@ -284,13 +289,11 @@ namespace Norika.MsBuild.Data.UnitTests
 
             Assert.AreEqual(5, project.IndexOf(target));
         }
-        
-        
-        
+
         private XmlDocument CreateFromString(string elementString)
         {
             XmlDocument document = new XmlDocument();
-            
+
             document.LoadXml(elementString);
 
             return document;
@@ -298,7 +301,7 @@ namespace Norika.MsBuild.Data.UnitTests
 
         private MsBuildXmlProjectImplementation CreateProjectWithMockedContent()
         {
-            MsBuildXmlProjectImplementation projectImplementation = 
+            MsBuildXmlProjectImplementation projectImplementation =
                 new MsBuildXmlProjectImplementation(CreateFromString("<Project></Project>"));
 
             for (int i = 1; i <= 10; i++)
