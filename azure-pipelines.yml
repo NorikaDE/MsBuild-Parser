@@ -41,7 +41,7 @@ steps:
     Contents: '**/bin/$(buildConfiguration)/**/$(rootNameSpace)*.dll'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/Binaries'
     flattenFolders: true
-    
+
 - task: DotNetCoreCLI@2
   displayName: Run Tests
   continueOnError: false
