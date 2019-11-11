@@ -24,9 +24,7 @@ namespace Norika.MsBuild.Data.UnitTests
             Assert.AreEqual(name, converted.Name);
         }
 
-        // Todo: Fix test...
         [TestMethod]
-        [Ignore]
         public void ToMsBuildElementHelp_WithXmHelpParagraphWithContent_ShouldReturnObjectWithCorrectContent()
         {
             string content = "Content";
@@ -36,7 +34,7 @@ namespace Norika.MsBuild.Data.UnitTests
 
             IMsBuildElementHelpParagraph converted = XmlHelpExtension.ToMsBuildElementHelp(xmlHelpParagraph.Object);
 
-            Assert.AreEqual(content, converted.Content[0]);
+            Assert.AreEqual(content, converted.Content);
         }
 
         [TestMethod]

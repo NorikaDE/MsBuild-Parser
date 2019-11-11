@@ -10,6 +10,19 @@ namespace Norika.MsBuild.Data.UnitTests
     public class MsBuildPropertyUnitTest
     {
         [TestMethod]
+        [Ignore]
+        public void IsPropertyPublicSettable_WithCheckForOtherPropertyAndSetOtherPropertyValue_ShouldReturnTrue()
+        {
+            string propertyName = "TestProperty";
+            string propertyCondition = "$(OtherProperty) != ''";
+            string propertyContent = "$(OtherProperty)";
+
+            Assert.IsTrue(
+                MsBuildXmlPropertyImplementation.HasPropertyPublicSetter(propertyName, propertyCondition,
+                    propertyContent));
+        }
+
+        [TestMethod]
         public void IsPropertyPublicSettable_WithCheckForPropertyIsEmptyInCondition_ShouldReturnTrue()
         {
             string propertyName = "TestProperty";

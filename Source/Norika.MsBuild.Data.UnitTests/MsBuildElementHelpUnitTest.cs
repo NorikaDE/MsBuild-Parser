@@ -56,6 +56,7 @@ namespace Norika.MsBuild.Data.UnitTests
             listMock.Verify(l => l[It.Is<int>(i => i.Equals(8))], Times.Exactly(1));
         }
 
+
         [TestMethod]
         public void Clear_ShouldPassThroughInvocationToWrappedImplementation()
         {

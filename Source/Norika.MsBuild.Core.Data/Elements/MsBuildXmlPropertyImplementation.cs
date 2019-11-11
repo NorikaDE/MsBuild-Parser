@@ -16,16 +16,17 @@ namespace Norika.MsBuild.Core.Data.Elements
         /// <param name="propertyCondition"></param>
         /// <param name="propertyContent"></param>
         /// <returns></returns>
+        /// ToDo: Make less complex
         public static bool HasPropertyPublicSetter(string propertyName, string propertyCondition,
             string propertyContent)
         {
             if (string.IsNullOrWhiteSpace(propertyContent) && string.IsNullOrEmpty(propertyCondition))
                 return false;
 
-            // Todo: Fix possible null reference 
-            if (string.IsNullOrEmpty(propertyCondition) &&
-                propertyContent.Contains(string.Format(MsBuildStringUtilities.FormatProvider, "{0:Property}",
-                    propertyName)))
+            if (propertyContent != null && string.IsNullOrEmpty(propertyCondition)
+                                        && propertyContent.Contains(
+                                            string.Format(MsBuildStringUtilities.FormatProvider, "{0:Property}",
+                                                propertyName)))
                 return true;
 
             if (string.IsNullOrEmpty(propertyCondition)) return false;
