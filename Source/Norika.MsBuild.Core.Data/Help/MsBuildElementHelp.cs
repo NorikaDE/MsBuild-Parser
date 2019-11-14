@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Norika.MsBuild.Model.Interfaces;
 
@@ -25,6 +26,7 @@ namespace Norika.MsBuild.Core.Data.Help
             return _paragraphs.GetEnumerator();
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -75,8 +77,8 @@ namespace Norika.MsBuild.Core.Data.Help
 
         public IMsBuildElementHelpParagraph this[int index]
         {
-            get => _paragraphs[index];
-            set => _paragraphs[index] = value;
+            [ExcludeFromCodeCoverage] get => _paragraphs[index];
+            [ExcludeFromCodeCoverage] set => _paragraphs[index] = value;
         }
 
         public IList<IMsBuildElementHelpParagraph> LookUp(string paragraphName)

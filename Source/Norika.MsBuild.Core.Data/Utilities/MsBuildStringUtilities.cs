@@ -59,7 +59,7 @@ namespace Norika.MsBuild.Core.Data.Utilities
         /// </summary>
         /// <param name="inputValue">String that contains the new line terminators that should be replaced</param>
         /// <returns>Altered string</returns>
-        public static string ReplaceNewLineWithSpace(string inputValue)
+        public static string ReplaceNewLineWithSpace(this string inputValue)
         {
             return string.Join(' ', SplitByNewLine(inputValue));
         }
