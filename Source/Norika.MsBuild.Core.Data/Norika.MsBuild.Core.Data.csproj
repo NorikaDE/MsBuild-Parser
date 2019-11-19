@@ -14,4 +14,12 @@
       <PackageReference Include="Norika.Xml.CommentBasedHelp.Data" Version="0.1.0-alpha73" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="..\..\Build\NuGet\Versioning.props">
+        <Link>Versioning/Versioning.props</Link>
+      </None>
+    </ItemGroup>
+
+    <Import Project="$(MsBuildThisFileDirectory)/../../Build/NuGet/Versioning.props" />
+
 </Project>

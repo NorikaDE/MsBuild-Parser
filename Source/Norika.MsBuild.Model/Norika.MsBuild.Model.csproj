@@ -4,4 +4,12 @@
         <TargetFramework>netcoreapp2.2</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="..\..\Build\NuGet\Versioning.props">
+            <Link>Versioning/Versioning.props</Link>
+        </None>
+    </ItemGroup>
+
+    <Import Project="$(MsBuildThisFileDirectory)/../../Build/NuGet/Versioning.props" />
+
 </Project>
