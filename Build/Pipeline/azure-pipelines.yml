@@ -50,7 +50,7 @@ steps:
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: '$(Build.SourcesDirectory)/**/*.*'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/BuildOutput'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/BuildWorkspace'
     flattenFolders: false
 
 - task: DotNetCoreCLI@2
@@ -86,5 +86,5 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: Copy To Drop Build Output
   inputs:
-    ArtifactName: BuildOutput
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/BuildOutput'
+    ArtifactName: BuildWorkspace
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/BuildWorkspace'
