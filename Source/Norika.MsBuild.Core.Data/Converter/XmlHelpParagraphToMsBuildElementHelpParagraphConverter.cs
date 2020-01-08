@@ -1,8 +1,6 @@
-using System;
 using System.Text;
 using Norika.MsBuild.Core.Data.Help;
 using Norika.MsBuild.Model.Interfaces;
-using Norika.Xml.CommentBasedHelp.Data;
 using Norika.Xml.CommentBasedHelp.Data.Interfaces;
 
 namespace Norika.MsBuild.Core.Data.Converter

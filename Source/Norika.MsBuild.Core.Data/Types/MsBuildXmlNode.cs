@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -11,7 +12,8 @@ namespace Norika.MsBuild.Core.Data.Types
     public abstract class MsBuildXmlNode : MsBuildXmlElement, IMsBuildNode
     {
         /// <inheritdoc cref="MsBuildXmlElement.XmlElementName"/>
-        public new static string XmlElementName;
+        public new static string XmlElementName =>
+            throw new ArgumentNullException($"Please override {nameof(XmlElementName)} in derived class.");
 
         /// <inheritdoc /> 
         public virtual IList<T> GetChildren<T>() where T : class, IMsBuildElement

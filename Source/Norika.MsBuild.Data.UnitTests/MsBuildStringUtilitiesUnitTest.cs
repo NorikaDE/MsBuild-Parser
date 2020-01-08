@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Norika.MsBuild.Core.Data.Utilities;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Xml;
 using Norika.MsBuild.Core.Data.Types;
 using Norika.MsBuild.Core.Data.Utilities;

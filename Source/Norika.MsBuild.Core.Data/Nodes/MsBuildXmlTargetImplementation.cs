@@ -13,7 +13,7 @@ namespace Norika.MsBuild.Core.Data.Nodes
     /// </summary>
     public class MsBuildXmlTargetImplementation : MsBuildXmlNode, IMsBuildTarget
     {
-        public new static string XmlElementName = "Target";
+        public new static string XmlElementName => "Target";
 
         public MsBuildXmlTargetImplementation(XmlElement targetNode) : base(targetNode)
         {
@@ -71,6 +71,7 @@ namespace Norika.MsBuild.Core.Data.Nodes
         /// <summary>
         /// <inheritdoc cref="IMsBuildTarget.HasTargetDependencies"/>
         /// </summary>
+        /// Todo: Check if Before- and AfterTargets should be considered for "HasTargetDependencies"
         public bool HasTargetDependencies =>
             (AfterTargets.Count > 0 || BeforeTargets.Count > 0 || DependsOnTargets.Count > 0);
     }

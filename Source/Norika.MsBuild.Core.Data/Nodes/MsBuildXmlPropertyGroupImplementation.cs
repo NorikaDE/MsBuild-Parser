@@ -12,7 +12,7 @@ namespace Norika.MsBuild.Core.Data.Nodes
 {
     public class MsBuildXmlPropertyGroupImplementation : MsBuildXmlNode, IMsBuildPropertyGroup
     {
-        public new static string XmlElementName = "PropertyGroup";
+        public new static string XmlElementName => "PropertyGroup";
 
         private readonly IList<IMsBuildProperty> _properties;
 

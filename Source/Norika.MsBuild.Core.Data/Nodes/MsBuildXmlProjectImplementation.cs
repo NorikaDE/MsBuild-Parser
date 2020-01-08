@@ -13,7 +13,7 @@ namespace Norika.MsBuild.Core.Data.Nodes
     {
         private readonly IList<IMsBuildElement> _elements;
 
-        private XmlElement _element;
+        private readonly XmlElement _element;
 
         public MsBuildXmlProjectImplementation(XmlDocument document) : base(document.DocumentElement)
         {

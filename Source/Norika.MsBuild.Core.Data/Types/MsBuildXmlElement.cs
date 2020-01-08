@@ -15,21 +15,23 @@ namespace Norika.MsBuild.Core.Data.Types
         /// <summary>
         /// Name of the xml element representing this implementation
         /// </summary>
-        public static string XmlElementName;
+        public static string XmlElementName =>
+            throw new NullReferenceException($"Please overwrite {nameof(XmlElementName)} in derived classes.");
 
         protected readonly XmlElement XmlElement;
-        
+
         public string Condition { get; }
         public bool IsConditional => !string.IsNullOrWhiteSpace(Condition);
         public IMsBuildElementHelp Help { get; }
 
         protected MsBuildXmlElement(XmlElement element)
         {
-            XmlElement = element ?? throw new ArgumentNullException(nameof(element),"The xml element should not be null!");
+            XmlElement =
+                element ?? throw new ArgumentNullException(nameof(element), "The xml element should not be null!");
             Condition = XmlElement.GetAttributeValue(nameof(Condition));
             Help = InitializeHelp();
         }
-        
+
         /// <summary>
         /// Initializes the user defined help comment by crating a dictionary containing the help
         /// keywords and related content by using <seealso cref="XmlHelpKeyword"/>. 

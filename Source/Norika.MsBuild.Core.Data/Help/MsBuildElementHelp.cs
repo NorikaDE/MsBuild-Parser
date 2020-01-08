@@ -21,6 +21,9 @@ namespace Norika.MsBuild.Core.Data.Help
             _paragraphs = wrapperList;
         }
 
+        public int Count => _paragraphs.Count;
+        public bool IsReadOnly => _paragraphs.IsReadOnly;
+
         public IEnumerator<IMsBuildElementHelpParagraph> GetEnumerator()
         {
             return _paragraphs.GetEnumerator();
@@ -57,8 +60,17 @@ namespace Norika.MsBuild.Core.Data.Help
             return _paragraphs.Remove(item);
         }
 
-        public int Count => _paragraphs.Count;
-        public bool IsReadOnly => _paragraphs.IsReadOnly;
+        public bool Remove(string paragraphName, bool distinctOnly)
+        {
+            if (_paragraphs.Count(p => p.Name.Equals(paragraphName)) > 1 && distinctOnly)
+                return false;
+
+            IList<IMsBuildElementHelpParagraph> removeItems =
+                _paragraphs.Where(x => x.Name.Equals(paragraphName)).ToList();
+
+            return removeItems.Aggregate(true, (current, paragraph) => current && _paragraphs.Remove(paragraph));
+        }
+
 
         public int IndexOf(IMsBuildElementHelpParagraph item)
         {
@@ -89,17 +101,6 @@ namespace Norika.MsBuild.Core.Data.Help
         public IList<IMsBuildElementHelpParagraph> LookUp(string paragraphName, StringComparison comparison)
         {
             return _paragraphs.Where(p => p.Name.Equals(paragraphName, comparison)).ToList();
-        }
-
-        public bool Remove(string paragraphName, bool distinctOnly)
-        {
-            if (_paragraphs.Count(p => p.Name.Equals(paragraphName)) > 1 && distinctOnly)
-                return false;
-
-            IList<IMsBuildElementHelpParagraph> removeItems =
-                _paragraphs.Where(x => x.Name.Equals(paragraphName)).ToList();
-
-            return removeItems.Aggregate(true, (current, paragraph) => current && _paragraphs.Remove(paragraph));
         }
 
         public bool ContainsSection(string sectionName, StringComparison stringComparison)

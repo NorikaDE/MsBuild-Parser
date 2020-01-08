@@ -16,6 +16,6 @@ namespace Norika.MsBuild.Core.Data.Tasks
             ExecuteTargets = element.GetAttributeValueList(nameof(ExecuteTargets));
         }
 
-        public new static string XmlElementName = "OnError";
+        public new static string XmlElementName => "OnError";
     }
 }
