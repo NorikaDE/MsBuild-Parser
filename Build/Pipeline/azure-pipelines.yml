@@ -37,6 +37,8 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+
+
 - task: CopyFiles@2
   displayName: 'Commissioning Binaries'
   inputs:
@@ -49,7 +51,7 @@ steps:
   displayName: 'Commissioning Build Output'
   inputs:
     SourceFolder: '$(Agent.BuildDirectory)'
-    Contents: '**/$(rootNameSpace)*/**/*.*'
+    Contents: '$(Agent.BuildDirectory)/**/*.*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/BuildOutput'
     flattenFolders: false
 
