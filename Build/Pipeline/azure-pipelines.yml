@@ -46,7 +46,7 @@ steps:
   displayName: 'Commissioning Integration Test Projects'
   inputs:
     SourceFolder: '$(Agent.BuildDirectory)'
-    Contents: '**/$(rootNameSpace).IntegrationTest*/*.*'
+    Contents: '**/$(rootNameSpace)*.IntegrationTest/*.*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/IntegrationTests'
     flattenFolders: false
 
