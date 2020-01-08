@@ -42,6 +42,14 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)/Binaries'
     flattenFolders: true
 
+- task: CopyFiles@2
+  displayName: 'Commissioning Integration Test Projects'
+  inputs:
+    SourceFolder: '$(Agent.BuildDirectory)'
+    Contents: '**/$(rootNameSpace).IntegrationTest*/*.*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/IntegrationTests'
+    flattenFolders: false
+
 - task: DotNetCoreCLI@2
   displayName: Run Tests
   continueOnError: false
@@ -71,3 +79,10 @@ steps:
   inputs:
     ArtifactName: Packages
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/Packages'
+
+
+- task: PublishBuildArtifacts@1
+  displayName: Copy To Drop Integration Test Artifacts
+  inputs:
+    ArtifactName: Packages
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/IntegrationTests'
