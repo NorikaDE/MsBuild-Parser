@@ -46,11 +46,11 @@ steps:
     flattenFolders: true
 
 - task: CopyFiles@2
-  displayName: 'Commissioning Integration Test Projects'
+  displayName: 'Commissioning Build Output'
   inputs:
     SourceFolder: '$(Agent.BuildDirectory)'
-    Contents: '**/$(rootNameSpace)*.IntegrationTest/**/*.*'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/IntegrationTests'
+    Contents: '$(Agent.BuildDirectory)/**/*.*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/BuildOutput'
     flattenFolders: false
 
 - task: DotNetCoreCLI@2
@@ -85,7 +85,7 @@ steps:
 
 
 - task: PublishBuildArtifacts@1
-  displayName: Copy To Drop Integration Test Artifacts
+  displayName: Copy To Drop Build Output
   inputs:
-    ArtifactName: IntegrationTests
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/IntegrationTests'
+    ArtifactName: BuildOutput
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/BuildOutput'
