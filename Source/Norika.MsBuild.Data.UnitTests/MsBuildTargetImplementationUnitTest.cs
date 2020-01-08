@@ -133,5 +133,35 @@ namespace Norika.MsBuild.Data.UnitTests
 
             target.GetChildren<IMsBuildOnError>();
         }
+
+        [TestMethod]
+        public void HasTargetDependencies_FromTargetWithDependsOnTarget_ShouldReturnTrue()
+        {
+            string testTargetImplementation =
+                "<Project><Target Name=\"Test\" DependsOnTargets=\"OtherTest\"><CallTarget Targets=\"AnotherTest\" /></Target></Project>";
+
+            XmlDocument document = new XmlDocument();
+            document.LoadXml(testTargetImplementation);
+            XmlElement targetElement = (XmlElement) document.GetElementsByTagName("Target")[0];
+
+            IMsBuildTarget target = new MsBuildXmlTargetImplementation(targetElement);
+
+            Assert.IsTrue(target.HasTargetDependencies);
+        }
+
+        [TestMethod]
+        public void HasTargetDependencies_FromTargetWithoutDependsOnTarget_ShouldReturnTrue()
+        {
+            string testTargetImplementation =
+                "<Project><Target Name=\"Test\"><CallTarget Targets=\"AnotherTest\" /></Target></Project>";
+
+            XmlDocument document = new XmlDocument();
+            document.LoadXml(testTargetImplementation);
+            XmlElement targetElement = (XmlElement) document.GetElementsByTagName("Target")[0];
+
+            IMsBuildTarget target = new MsBuildXmlTargetImplementation(targetElement);
+
+            Assert.IsFalse(target.HasTargetDependencies);
+        }
     }
 }
