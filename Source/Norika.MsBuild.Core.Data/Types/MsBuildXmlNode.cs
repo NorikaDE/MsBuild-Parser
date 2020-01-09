@@ -13,7 +13,7 @@ namespace Norika.MsBuild.Core.Data.Types
     {
         /// <inheritdoc cref="MsBuildXmlElement.XmlElementName"/>
         public new static string XmlElementName =>
-            throw new ArgumentNullException($"Please override {nameof(XmlElementName)} in derived class.");
+            throw new InvalidOperationException($"Please override {nameof(XmlElementName)} in derived class.");
 
         /// <inheritdoc /> 
         public virtual IList<T> GetChildren<T>() where T : class, IMsBuildElement

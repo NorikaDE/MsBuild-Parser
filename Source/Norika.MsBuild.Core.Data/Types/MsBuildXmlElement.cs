@@ -16,7 +16,7 @@ namespace Norika.MsBuild.Core.Data.Types
         /// Name of the xml element representing this implementation
         /// </summary>
         public static string XmlElementName =>
-            throw new NullReferenceException($"Please overwrite {nameof(XmlElementName)} in derived classes.");
+            throw new InvalidOperationException($"Please overwrite {nameof(XmlElementName)} in derived classes.");
 
         protected readonly XmlElement XmlElement;
 

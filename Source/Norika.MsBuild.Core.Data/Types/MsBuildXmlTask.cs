@@ -12,10 +12,6 @@ namespace Norika.MsBuild.Core.Data.Types
     /// </summary>
     public abstract class MsBuildXmlTask : MsBuildXmlNode, IMsBuildTask
     {
-        /// <inheritdoc cref="MsBuildXmlElement.XmlElementName"/>
-        public new static string XmlElementName =>
-            throw new ArgumentNullException($"Please override {nameof(XmlElementName)} in derived class.");
-
         protected MsBuildXmlTask(XmlElement element) : base(element)
         {
             MsBuildConverterFactory factory = new MsBuildConverterFactory();

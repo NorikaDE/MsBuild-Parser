@@ -289,7 +289,7 @@ namespace Norika.MsBuild.Data.UnitTests
         [TestMethod]
         public void ContainsSection_WithStringValueWithDifferentCaseParagraphWithStringOrdinal_ShouldReturnFalse()
         {
-            string searchPattern = "JOHNEDOE";
+            string searchPattern = "JOHNDOE";
 
             Mock<IMsBuildElementHelpParagraph> paragraphOne = new Mock<IMsBuildElementHelpParagraph>();
             paragraphOne.Setup(p => p.Name).Returns(searchPattern);
@@ -311,7 +311,7 @@ namespace Norika.MsBuild.Data.UnitTests
         public void
             ContainsSection_WithStringValueWithDifferentCaseParagraphWithStringOrdinalIgnoreCase_ShouldReturnTrue()
         {
-            string searchPattern = "JOHNEDOE";
+            string searchPattern = "JOHNDOE";
 
             Mock<IMsBuildElementHelpParagraph> paragraphOne = new Mock<IMsBuildElementHelpParagraph>();
             paragraphOne.Setup(p => p.Name).Returns(searchPattern);
@@ -327,6 +327,123 @@ namespace Norika.MsBuild.Data.UnitTests
 
             Assert.IsTrue(sutHelp.ContainsSection(searchPattern.ToLower(), StringComparison.OrdinalIgnoreCase),
                 "Same string value with different case should return true if string comparision is set to ignore case");
+        }
+
+        [TestMethod]
+        public void LookUp_WithExistentParagraphName_ShouldReturnMatchingObject()
+        {
+            string searchPattern = "JOHNDOE";
+            string searchContent = "Content";
+
+            Mock<IMsBuildElementHelpParagraph> searchedParagraph = new Mock<IMsBuildElementHelpParagraph>();
+            searchedParagraph.Setup(p => p.Name).Returns(searchPattern);
+            searchedParagraph.Setup(p => p.Content).Returns(searchContent);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                searchedParagraph.Object, paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+
+            Assert.AreEqual(searchedParagraph.Object, sutHelp.LookUp(searchPattern).First());
+        }
+
+        [TestMethod]
+        public void LookUp_WithExistentParagraphName_ShouldReturnMatchingObjectButNoOther()
+        {
+            string searchPattern = "JOHNDOE";
+            string searchContent = "Content";
+
+            Mock<IMsBuildElementHelpParagraph> searchedParagraph = new Mock<IMsBuildElementHelpParagraph>();
+            searchedParagraph.Setup(p => p.Name).Returns(searchPattern);
+            searchedParagraph.Setup(p => p.Content).Returns(searchContent);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                searchedParagraph.Object, paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+            var lookedUpParagraph = sutHelp.LookUp(searchPattern);
+
+            Assert.AreEqual(1, lookedUpParagraph.Count);
+            Assert.AreEqual(searchedParagraph.Object, lookedUpParagraph.First());
+        }
+
+        [TestMethod]
+        public void LookUp_WithExistentParagraphNameButDifferentCase_ShouldReturnNoMatchingObjects()
+        {
+            string searchPattern = "JOHNDOE";
+            string searchContent = "Content";
+
+            Mock<IMsBuildElementHelpParagraph> searchedParagraph = new Mock<IMsBuildElementHelpParagraph>();
+            searchedParagraph.Setup(p => p.Name).Returns(searchPattern);
+            searchedParagraph.Setup(p => p.Content).Returns(searchContent);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                searchedParagraph.Object, paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+            var lookedUpParagraph = sutHelp.LookUp("JohnDoe");
+
+            Assert.AreEqual(0, lookedUpParagraph.Count);
+        }
+
+        [TestMethod]
+        public void
+            LookUp_WithExistentParagraphNameDifferentCaseButStringComparisionIgnoreCase_ShouldReturnMatchingObject()
+        {
+            string searchPattern = "JOHNDOE";
+            string searchContent = "Content";
+
+            Mock<IMsBuildElementHelpParagraph> searchedParagraph = new Mock<IMsBuildElementHelpParagraph>();
+            searchedParagraph.Setup(p => p.Name).Returns(searchPattern);
+            searchedParagraph.Setup(p => p.Content).Returns(searchContent);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                searchedParagraph.Object, paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+            var lookedUpParagraph = sutHelp.LookUp("JohnDoe", StringComparison.OrdinalIgnoreCase);
+
+            Assert.AreEqual(searchedParagraph.Object, lookedUpParagraph.First());
+        }
+
+        [TestMethod]
+        public void
+            GetSectionContent_WithExistentParagraphNameDifferentCaseButStringComparisionIgnoreCase_ShouldReturnMatchingObjectsContent()
+        {
+            string searchPattern = "JOHNDOE";
+            string searchContent = "Content";
+
+            Mock<IMsBuildElementHelpParagraph> searchedParagraph = new Mock<IMsBuildElementHelpParagraph>();
+            searchedParagraph.Setup(p => p.Name).Returns(searchPattern);
+            searchedParagraph.Setup(p => p.Content).Returns(searchContent);
+            Mock<IMsBuildElementHelpParagraph> paragraphTwo = new Mock<IMsBuildElementHelpParagraph>();
+            paragraphTwo.Setup(p => p.Name).Returns("NOTRELEVANT");
+
+            IList<IMsBuildElementHelpParagraph> paragraphsList = new List<IMsBuildElementHelpParagraph>()
+            {
+                searchedParagraph.Object, paragraphTwo.Object
+            };
+
+            MsBuildElementHelp sutHelp = new MsBuildElementHelp(paragraphsList);
+            var sectionContent = sutHelp.GetSectionContent("JohnDoe", StringComparison.OrdinalIgnoreCase);
+
+            Assert.AreEqual(searchContent, sectionContent);
         }
     }
 }
