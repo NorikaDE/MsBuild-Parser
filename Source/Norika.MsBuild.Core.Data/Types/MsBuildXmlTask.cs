@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 using Norika.MsBuild.Core.Data.Converter;
 using Norika.MsBuild.Core.Data.Utilities;
